@@ -1,73 +1,76 @@
-// App.js — React sans build (CDN)
+// App.js — React CDN sans JSX
 
-// Alias React
+const e = React.createElement;
 const { useState } = React;
 
 /* =========================
-   Composant principal
+   APP PRINCIPALE
 ========================= */
 function App() {
-  const [ressources, setRessources] = useState([
+  const [ressources] = useState([
     { id: 1, nom: "Alice" },
     { id: 2, nom: "Bob" }
   ]);
 
-  const [taches, setTaches] = useState([
+  const [taches] = useState([
     { id: 1, nom: "Analyse", duree: 3, ressourceId: 1 },
     { id: 2, nom: "Développement", duree: 5, ressourceId: 2 }
   ]);
 
-  return (
-    <div className="app">
-      <h1>📊 Project Planner RH</h1>
-
-      <SectionRessources ressources={ressources} />
-      <SectionTaches taches={taches} ressources={ressources} />
-    </div>
+  return e(
+    "div",
+    { className: "app" },
+    e("h1", null, "📊 Project Planner RH"),
+    SectionRessources({ ressources }),
+    SectionTaches({ taches, ressources })
   );
 }
 
 /* =========================
-   Ressources
+   RESSOURCES
 ========================= */
 function SectionRessources({ ressources }) {
-  return (
-    <section>
-      <h2>Ressources</h2>
-      <ul>
-        {ressources.map(r => (
-          <li key={r.id}>{r.nom}</li>
-        ))}
-      </ul>
-    </section>
+  return e(
+    "section",
+    null,
+    e("h2", null, "Ressources"),
+    e(
+      "ul",
+      null,
+      ressources.map(r =>
+        e("li", { key: r.id }, r.nom)
+      )
+    )
   );
 }
 
 /* =========================
-   Tâches
+   TÂCHES
 ========================= */
 function SectionTaches({ taches, ressources }) {
-  return (
-    <section>
-      <h2>Tâches</h2>
-      <ul>
-        {taches.map(t => {
-          const ressource = ressources.find(r => r.id === t.ressourceId);
-          return (
-            <li key={t.id}>
-              {t.nom} — {t.duree} jours — {ressource?.nom || "Non affecté"}
-            </li>
-          );
-        })}
-      </ul>
-    </section>
+  return e(
+    "section",
+    null,
+    e("h2", null, "Tâches"),
+    e(
+      "ul",
+      null,
+      taches.map(t => {
+        const res = ressources.find(r => r.id === t.ressourceId);
+        return e(
+          "li",
+          { key: t.id },
+          `${t.nom} — ${t.duree} jours — ${res ? res.nom : "Non affecté"}`
+        );
+      })
+    )
   );
 }
 
 /* =========================
-   MONTAGE REACT
+   MONTAGE
 ========================= */
 ReactDOM.render(
-  <App />,
+  e(App),
   document.getElementById("racine")
 );
