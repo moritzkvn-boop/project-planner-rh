@@ -15,20 +15,28 @@ function App() {
     <>
       <h1>📊 Project Planner RH</h1>
 
-      <div className="section">
-        <h2>👥 Ressources</h2>
-        {resources.map(r => (
-          <div className="item" key={r.id}>{r.name}</div>
-        ))}
-      </div>
+      <div className="dashboard">
+        {/* COLONNE GAUCHE */}
+        <div className="card">
+          <h2>👥 Ressources</h2>
+          {resources.map(r => (
+            <div className="item" key={r.id}>
+              {r.name}
+            </div>
+          ))}
+        </div>
 
-      <div className="section">
-        <h2>📝 Tâches</h2>
-        {tasks.map(t => (
-          <div className="item" key={t.id}>
-            {t.name} — {t.days} jours — {t.assigned}
-          </div>
-        ))}
+        {/* COLONNE DROITE */}
+        <div className="card">
+          <h2>📝 Tâches</h2>
+          {tasks.map(t => (
+            <div className="item" key={t.id}>
+              <strong>{t.name}</strong><br />
+              {t.days} jours
+              <span className="badge">{t.assigned}</span>
+            </div>
+          ))}
+        </div>
       </div>
     </>
   );
