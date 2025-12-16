@@ -78,3 +78,65 @@ h1 {
   font-size: 0.75rem;
   margin-left: 8px;
 }
+.tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.tab {
+  background: #020617;
+  color: #93c5fd;
+  border: 1px solid #1e293b;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.tab.active {
+  background: #38bdf8;
+  color: #020617;
+}
+
+.overload {
+  border-left: 4px solid #ef4444;
+}
+
+.warning {
+  color: #ef4444;
+  font-size: 0.8rem;
+  margin-left: 8px;
+}
+
+.gantt {
+  margin-top: 24px;
+  position: relative;
+}
+
+.gantt-row {
+  position: relative;
+  height: 36px;
+  margin-bottom: 10px;
+}
+
+.gantt-bar {
+  position: absolute;
+  top: 0;
+  height: 30px;
+  background: linear-gradient(90deg, #38bdf8, #0ea5e9);
+  border-radius: 8px;
+  color: #020617;
+  padding: 4px 8px;
+}
+
+.export {
+  margin-top: 20px;
+  padding: 10px 16px;
+  border-radius: 10px;
+  background: #22c55e;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+
