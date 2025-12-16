@@ -1,63 +1,37 @@
-const e = React.createElement;
+const { useState } = React;
 
-/* ===== DONNÉES ===== */
-const ressources = [
-  { id: 1, nom: "Alice", absences: [] },
-  { id: 2, nom: "Bob", absences: [] }
-];
-
-const taches = [
-  { id: 1, nom: "Analyse", duree: 3, ressource: "Alice" },
-  { id: 2, nom: "Développement", duree: 5, ressource: "Bob" }
-];
-
-/* ===== COMPOSANT ===== */
 function App() {
-  return e(
-    "div",
-    { style: styles.container },
-    [
-      e("h1", { style: styles.title }, "📊 Project Planner RH"),
+  const [resources] = useState([
+    { id: 1, name: "Alice" },
+    { id: 2, name: "Bob" }
+  ]);
 
-      e("h2", null, "Ressources"),
-      e(
-        "ul",
-        null,
-        ressources.map(r =>
-          e("li", { key: r.id }, r.nom)
-        )
-      ),
+  const [tasks] = useState([
+    { id: 1, name: "Analyse", days: 3, assigned: "Alice" },
+    { id: 2, name: "Développement", days: 5, assigned: "Bob" }
+  ]);
 
-      e("h2", null, "Tâches"),
-      e(
-        "ul",
-        null,
-        taches.map(t =>
-          e(
-            "li",
-            { key: t.id },
-            `${t.nom} – ${t.duree} jours – ${t.ressource}`
-          )
-        )
-      )
-    ]
+  return (
+    <>
+      <h1>📊 Project Planner RH</h1>
+
+      <div className="section">
+        <h2>👥 Ressources</h2>
+        {resources.map(r => (
+          <div className="item" key={r.id}>{r.name}</div>
+        ))}
+      </div>
+
+      <div className="section">
+        <h2>📝 Tâches</h2>
+        {tasks.map(t => (
+          <div className="item" key={t.id}>
+            {t.name} — {t.days} jours — {t.assigned}
+          </div>
+        ))}
+      </div>
+    </>
   );
 }
 
-/* ===== STYLES ===== */
-const styles = {
-  container: {
-    background: "#121212",
-    color: "white",
-    minHeight: "100vh",
-    padding: "20px",
-    fontFamily: "Arial"
-  },
-  title: {
-    color: "#4fc3f7"
-  }
-};
-
-/* ===== RENDER ===== */
-ReactDOM.createRoot(document.getElementById("root"))
-  .render(e(App));
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
