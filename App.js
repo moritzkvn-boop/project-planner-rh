@@ -1,45 +1,54 @@
-const { useState } = React;
+const { useState, useEffect } = React;
 
 function App() {
-  const [resources] = useState([
-    { id: 1, name: "Alice" },
-    { id: 2, name: "Bob" }
-  ]);
+  const [projects, setProjects] = useState(() => {
+    return JSON.parse(localStorage.getItem("projects")) || [
+      {
+        id: 1,
+        name: "Projet A",
+        resources: [
+          { id: 1, name: "Alice", capacity: 5 },
+          { id: 2, name: "Bob", capacity: 5 }
+        ],
+        tasks: [
+          { id: 1, name: "Analyse", days: 3, resourceId: 1, start: 0 },
+          { id: 2, name: "Développement", days: 5, resourceId: 2, start: 3 }
+        ]
+      }
+    ];
+  });
 
-  const [tasks] = useState([
-    { id: 1, name: "Analyse", days: 3, assigned: "Alice" },
-    { id: 2, name: "Développement", days: 5, assigned: "Bob" }
-  ]);
+  const [activeProjectId, setActiveProjectId] = useState(1);
+  const project = projects.find(p => p.id === activeProjectId);
+
+  useEffect(() => {
+    localStorage.setItem("projects", JSON.stringify(projects));
+  }, [projects]);
 
   return (
     <>
       <h1>📊 Project Planner RH</h1>
 
-      <div className="dashboard">
-        {/* COLONNE GAUCHE */}
-        <div className="card">
-          <h2>👥 Ressources</h2>
-          {resources.map(r => (
-            <div className="item" key={r.id}>
-              {r.name}
-            </div>
-          ))}
-        </div>
-
-        {/* COLONNE DROITE */}
-        <div className="card">
-          <h2>📝 Tâches</h2>
-          {tasks.map(t => (
-            <div className="item" key={t.id}>
-              <strong>{t.name}</strong><br />
-              {t.days} jours
-              <span className="badge">{t.assigned}</span>
-            </div>
-          ))}
-        </div>
+      {/* ONGLES PROJETS */}
+      <div className="tabs">
+        {projects.map(p => (
+          <button
+            key={p.id}
+            className={p.id === activeProjectId ? "tab active" : "tab"}
+            onClick={() => setActiveProjectId(p.id)}
+          >
+            {p.name}
+          </button>
+        ))}
       </div>
+
+      <div className="dashboard">
+        <Resources project={project} />
+        <Tasks project={project} />
+      </div>
+
+      <Gantt project={project} />
+      <Export project={project} />
     </>
   );
 }
-
-ReactDOM.createRoot(document.getElementById("root")).render(<App />);
